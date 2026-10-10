@@ -19,7 +19,7 @@ Security in Addis Eats is enforced across three distinct boundaries rather than 
   * Server Actions (`cancelOrder`, `placeOrder`, `updateKitchenStatus`) verify the caller identity directly from the cryptographically secure HTTP-only session cookie.
   * Order history queries are hard-scoped to the authenticated user ID (`getOrdersFor(user.id)`), making ID spoofing via URL parameters impossible.
 
-For full architectural diagrams and attack scenario mitigations, see [addis-eats/AUTH.md](./addis-eats/AUTH.md).
+For full architectural diagrams and attack scenario mitigations, see [AUTH.md](./AUTH.md).
 
 ---
 
@@ -36,7 +36,7 @@ The application pairs Server Components for initial page loads with SWR hooks fo
 * **Progressive Enhancement:**
   * Order submission and checkout use native Server Actions with form submissions, ensuring full functionality even if JavaScript is slow or unavailable.
 
-For data fetching decisions and query key lifecycles, see [addis-eats/DATA.md](./addis-eats/DATA.md).
+For data fetching decisions and query key lifecycles, see [DATA.md](./DATA.md).
 
 ---
 
@@ -51,7 +51,7 @@ All performance optimizations were verified under throttled network conditions (
 | **Page Weight (Images)** | < 600 kB | 3,450 kB | 385 kB | Wikimedia Commons images compressed and served in WebP format tailored to mobile and desktop viewports. |
 | **First Load JS** | < 100 kB | 94 kB | 88 kB | Server Components render the page shell; client code restricted strictly to interactive leaf components. |
 
-For the complete before/after audit breakdown, see [addis-eats/PERF.md](./addis-eats/PERF.md).
+For the complete before/after audit breakdown, see [PERF.md](./PERF.md).
 
 ---
 
@@ -68,7 +68,7 @@ For the complete before/after audit breakdown, see [addis-eats/PERF.md](./addis-
   * `sitemap.xml`: Dynamically generated route list including all menu item permalinks with priority rankings.
   * `robots.txt`: Prevents crawling of private authenticated paths (`/cart`, `/checkout`, `/orders`, `/kitchen`, `/signin`).
 
-For the complete search engine discoverability audit, see [addis-eats/SEO.md](./addis-eats/SEO.md).
+For the complete search engine discoverability audit, see [SEO.md](./SEO.md).
 
 ---
 
@@ -76,51 +76,49 @@ For the complete search engine discoverability audit, see [addis-eats/SEO.md](./
 
 ```text
 Addis-Eats-Nextjs/
-├── README.md                          # Repository overview and documentation guide
-└── addis-eats/                        # Next.js application root
-    ├── app/
-    │   ├── actions.js                 # Server Actions (signIn, signOut, placeOrder, cancelOrder)
-    │   ├── favicon.ico                # Application favicon
-    │   ├── globals.css                # Global design system styles and responsive layout rules
-    │   ├── layout.js                  # Root layout with fonts, navigation, and metadataBase
-    │   ├── not-found.js               # Custom 404 page
-    │   ├── opengraph-image.jsx        # Root dynamic OpenGraph card (1200 x 630)
-    │   ├── page.js                    # Home page with hero banner and JSON-LD Restaurant schema
-    │   ├── robots.js                  # Dynamic robots.txt configuration
-    │   ├── sitemap.js                 # Dynamic sitemap.xml generator
-    │   ├── api/
-    │   │   ├── dishes/                # REST endpoint for dish queries and search
-    │   │   └── orders/                # REST endpoint for live order status polling
-    │   ├── cart/                      # Shopping cart page (client-side state)
-    │   ├── checkout/                  # Protected checkout page and order submission form
-    │   ├── favorites/                 # Customer favorites list
-    │   ├── kitchen/                   # Protected staff kitchen queue (RBAC guard)
-    │   ├── menu/                      # Menu catalog with SWR search, filters, and SSG dish routes
-    │   ├── orders/                    # Customer order history and live polling order status
-    │   ├── privacy/                   # Privacy policy page
-    │   ├── profile/                   # Customer profile page
-    │   ├── signin/                    # Authentication login form
-    │   └── terms/                     # Terms of service page
-    ├── components/                    # Modular UI components (DishImage, ThemeToggle, etc.)
-    │   ├── DishImage.jsx
-    │   └── ThemeToggle.jsx
-    ├── hooks/                         # Client hooks (useCart, useDebounce)
-    │   ├── useCart.js
-    │   └── useDebounce.js
-    ├── lib/                           # Core business logic, mock database, and session helpers
-    │   ├── auth.js                    # Session cookie management and verification
-    │   └── data.js                    # Dish catalog and order state store
-    ├── public/                        # Static assets and icons
-    ├── .env.example                   # Environment variable template
-    ├── AUTH.md                        # Detailed authentication and security matrix
-    ├── BOUNDARY.md                    # Server vs client component boundaries
-    ├── DATA.md                        # Client and server data fetching documentation
-    ├── PERF.md                        # Performance budget and Core Web Vitals audit
-    ├── README.md                      # Application-level README
-    ├── SEO.md                         # Search engine optimization and metadata guide
-    ├── STRATEGY.md                    # Route rendering strategies (Static, Dynamic, SSG, Client)
-    ├── next.config.js                 # Next.js configuration (remote image patterns)
-    └── package.json                   # Project scripts and dependencies
+├── app/
+│   ├── actions.js                 # Server Actions (signIn, signOut, placeOrder, cancelOrder)
+│   ├── favicon.ico                # Application favicon
+│   ├── globals.css                # Global design system styles and responsive layout rules
+│   ├── layout.js                  # Root layout with fonts, navigation, and metadataBase
+│   ├── not-found.js               # Custom 404 page
+│   ├── opengraph-image.jsx        # Root dynamic OpenGraph card (1200 x 630)
+│   ├── page.js                    # Home page with hero banner and JSON-LD Restaurant schema
+│   ├── robots.js                  # Dynamic robots.txt configuration
+│   ├── sitemap.js                 # Dynamic sitemap.xml generator
+│   ├── api/
+│   │   ├── dishes/                # REST endpoint for dish queries and search
+│   │   └── orders/                # REST endpoint for live order status polling
+│   ├── cart/                      # Shopping cart page (client-side state)
+│   ├── checkout/                  # Protected checkout page and order submission form
+│   ├── favorites/                 # Customer favorites list
+│   ├── kitchen/                   # Protected staff kitchen queue (RBAC guard)
+│   ├── menu/                      # Menu catalog with SWR search, filters, and SSG dish routes
+│   ├── orders/                    # Customer order history and live polling order status
+│   ├── privacy/                   # Privacy policy page
+│   ├── profile/                   # Customer profile page
+│   ├── signin/                    # Authentication login form
+│   └── terms/                     # Terms of service page
+├── components/                    # Modular UI components (DishImage, ThemeToggle, etc.)
+│   ├── DishImage.jsx
+│   └── ThemeToggle.jsx
+├── hooks/                         # Client hooks (useCart, useDebounce)
+│   ├── useCart.js
+│   └── useDebounce.js
+├── lib/                           # Core business logic, mock database, and session helpers
+│   ├── auth.js                    # Session cookie management and verification
+│   └── data.js                    # Dish catalog and order state store
+├── public/                        # Static assets and icons
+├── .env.example                   # Environment variable template
+├── AUTH.md                        # Detailed authentication and security matrix
+├── BOUNDARY.md                    # Server vs client component boundaries
+├── DATA.md                        # Client and server data fetching documentation
+├── PERF.md                        # Performance budget and Core Web Vitals audit
+├── README.md                      # Application overview and documentation guide
+├── SEO.md                         # Search engine optimization and metadata guide
+├── STRATEGY.md                    # Route rendering strategies (Static, Dynamic, SSG, Client)
+├── next.config.js                 # Next.js configuration (remote image patterns)
+└── package.json                   # Project scripts and dependencies
 ```
 
 ---
@@ -136,7 +134,7 @@ Addis-Eats-Nextjs/
 1. Clone the repository:
    ```bash
    git clone https://github.com/ephrathasamuel/Addis-Eats-Nextjs.git
-   cd Addis-Eats-Nextjs/addis-eats
+   cd Addis-Eats-Nextjs
    ```
 
 2. Install dependencies:
@@ -180,13 +178,13 @@ The project includes pre-configured mock credentials to test multi-layer authori
 
 ## Architectural Documentation
 
-Deep-dive documentation files are located in the `addis-eats/` directory:
-* [AUTH.md](./addis-eats/AUTH.md): Multi-layer security architecture, attack simulations, and cookie configurations.
-* [DATA.md](./addis-eats/DATA.md): Data fetching strategies, caching tiers, SWR polling, and debounced queries.
-* [PERF.md](./addis-eats/PERF.md): Core Web Vitals measurements, image compression, and script execution rules.
-* [SEO.md](./addis-eats/SEO.md): Title hierarchy, canonical tags, JSON-LD schemas, and dynamic social cards.
-* [STRATEGY.md](./addis-eats/STRATEGY.md): Rendering strategy breakdown for every application route.
-* [BOUNDARY.md](./addis-eats/BOUNDARY.md): Server and client component boundaries with justification for client leaves.
+Deep-dive documentation files:
+* [AUTH.md](./AUTH.md): Multi-layer security architecture, attack simulations, and cookie configurations.
+* [DATA.md](./DATA.md): Data fetching strategies, caching tiers, SWR polling, and debounced queries.
+* [PERF.md](./PERF.md): Core Web Vitals measurements, image compression, and script execution rules.
+* [SEO.md](./SEO.md): Title hierarchy, canonical tags, JSON-LD schemas, and dynamic social cards.
+* [STRATEGY.md](./STRATEGY.md): Rendering strategy breakdown for every application route.
+* [BOUNDARY.md](./BOUNDARY.md): Server and client component boundaries with justification for client leaves.
 
 ---
 
