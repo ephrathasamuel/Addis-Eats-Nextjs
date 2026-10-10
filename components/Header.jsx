@@ -37,7 +37,6 @@ export function Header() {
           <Link href="/menu" className={`nav-link ${isActive("/menu") ? "nav-link--active" : ""}`}>Menu</Link>
           <Link href="/orders" className={`nav-link ${isActive("/orders") ? "nav-link--active" : ""}`}>Orders</Link>
           <Link href="/favorites" className={`nav-link ${isActive("/favorites") ? "nav-link--active" : ""}`}>Favorites</Link>
-          <Link href="/kitchen" className={`nav-link ${isActive("/kitchen") ? "nav-link--active" : ""}`}>Kitchen</Link>
           <Link href="/cart" className={`nav-link nav-link--cart ${isActive("/cart") ? "nav-link--active" : ""}`}>
             <span>Cart</span>
             <span className="nav-cart-indicator">

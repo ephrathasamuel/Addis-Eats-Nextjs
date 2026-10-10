@@ -17,27 +17,8 @@ export default async function OrdersPage() {
 
   return (
     <main style={{ maxWidth: "760px", margin: "2rem auto", padding: "0 1.5rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        <div>
-          <h1 style={{ margin: "0 0 0.25rem" }}>Your Order History</h1>
-          <p style={{ margin: 0, color: "var(--muted)", fontSize: "0.95rem" }}>
-            Viewing orders placed by <strong>{user.name}</strong> ({user.email})
-          </p>
-        </div>
-        <span
-          style={{
-            fontSize: "0.8rem",
-            fontWeight: "700",
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-            padding: "0.3rem 0.8rem",
-            borderRadius: "999px",
-            backgroundColor: "var(--brand-light)",
-            color: "var(--brand-dark)",
-          }}
-        >
-          {user.role} account
-        </span>
+      <div style={{ marginBottom: "2rem" }}>
+        <h1 style={{ margin: "0" }}>Your Order History</h1>
       </div>
 
       <OrderList orders={orders} />

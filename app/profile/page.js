@@ -1,25 +1,16 @@
 import { getDishByIdSync, getDishByNameSync } from "@/lib/dishes";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { getOrdersByOwner } from "@/lib/orders";
+import { getSession } from "@/lib/session";
+import { getOrdersFor } from "@/lib/orders";
 import { signOut } from "@/app/actions";
 import { ProfileCartPreview } from "@/components/ProfileCartPreview";
-
 
 export const dynamic = "force-dynamic";
 
 export default async function ProfilePage() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("session")?.value;
-  const name = cookieStore.get("user_name")?.value
-    ? decodeURIComponent(cookieStore.get("user_name").value)
-    : null;
-  const email = cookieStore.get("user_email")?.value
-    ? decodeURIComponent(cookieStore.get("user_email").value)
-    : null;
-  const ownerToken = cookieStore.get("order_owner")?.value;
+  const user = await getSession();
 
-  if (!session) {
+  if (!user) {
     return (
       <div className="empty-state">
         <h1>Profile</h1>
@@ -31,7 +22,9 @@ export default async function ProfilePage() {
     );
   }
 
-  const orders = getOrdersByOwner(ownerToken);
+  const name = user.name;
+  const email = user.email;
+  const orders = getOrdersFor(user.id);
 
   return (
     <div className="profile-page">
