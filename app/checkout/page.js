@@ -149,6 +149,9 @@ export default async function CheckoutPage({ searchParams }) {
                 <span>Estimated Arrival</span>
                 <span>35 - 45 Mins</span>
               </div>
+              <p style={{ margin: "0.2rem 0 0.85rem", color: "var(--muted)", fontSize: "0.82rem", lineHeight: 1.4 }}>
+                Delivery time only accounts for driving time and does not include kitchen cooking time.
+              </p>
               <div className="breakdown-row breakdown-row--grand">
                 <span>Total Amount Due</span>
                 <span className="grand-total-val">{grandTotal} ETB</span>

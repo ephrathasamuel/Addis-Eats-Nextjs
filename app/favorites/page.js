@@ -16,11 +16,18 @@ export default function FavoritesPage() {
   const [signedIn, setSignedIn] = useState(undefined);
 
   useEffect(() => {
-    setSignedIn(document.cookie.includes("user_name="));
+    if (document.cookie.includes("user_name=") || document.cookie.includes("addis_session=")) {
+      setSignedIn(true);
+    } else {
+      fetch("/api/auth/me")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => setSignedIn(Boolean(data?.authenticated)))
+        .catch(() => setSignedIn(false));
+    }
   }, []);
 
   if (!hydrated || signedIn === undefined) {
-    return <p>Loading your favorites…</p>;
+    return <p>Loading your favorites...</p>;
   }
 
   if (!signedIn) {

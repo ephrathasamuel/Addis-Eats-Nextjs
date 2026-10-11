@@ -131,7 +131,7 @@ export function OrderList({ orders }) {
               <Link href={`/orders/${order.id}`} className="btn-ghost" style={{ fontSize: "0.85rem" }}>
                 Live Tracking →
               </Link>
-              {order.status !== "cancelled" && order.status !== "delivered" && (
+              {order.status === "placed" && (Date.now() - new Date(order.createdAt).getTime()) < 5 * 60 * 1000 && (
                 <button
                   onClick={() => handleCancel(order.id)}
                   disabled={cancellingId === order.id}
@@ -146,7 +146,7 @@ export function OrderList({ orders }) {
                     cursor: "pointer",
                   }}
                 >
-                  {cancellingId === order.id ? "Cancelling..." : "Cancel"}
+                  {cancellingId === order.id ? "Requesting..." : "Cancel Request"}
                 </button>
               )}
             </div>

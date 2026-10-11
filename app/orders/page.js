@@ -12,8 +12,8 @@ export default async function OrdersPage() {
     redirect("/signin?next=/orders");
   }
 
-  // Scoped Query: Always scoped to user.id from the verified session, never from URL params
-  const orders = getOrdersFor(user.id);
+  // Scoped Query: Always scoped to user.id from the verified session, limited to last 10
+  const orders = getOrdersFor(user.id).slice(0, 10);
 
   return (
     <main style={{ maxWidth: "760px", margin: "2rem auto", padding: "0 1.5rem" }}>
