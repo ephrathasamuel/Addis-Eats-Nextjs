@@ -1,47 +1,84 @@
-import { ImageResponse } from "next/og";
-
-export const runtime = "nodejs";
-export const alt = "Addis Eats — Ethiopian Food Delivery";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-
-export default async function Image() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "linear-gradient(135deg, #1c143c 0%, #0b0b0f 100%)",
-          color: "#ffffff",
-          textAlign: "center",
-          padding: "60px",
-        }}
-      >
-        <h1 style={{ fontSize: "80px", fontWeight: "bold", margin: "0 0 20px", color: "#a48fff" }}>
-          Addis Eats
-        </h1>
-        <p style={{ fontSize: "36px", color: "#e7e3f5", margin: 0, maxWidth: "850px" }}>
-          Authentic Ethiopian Food, Cooked Slow & Delivered Fast
-        </p>
-        <div
-          style={{
-            marginTop: "40px",
-            background: "#7c5cff",
-            padding: "12px 32px",
-            borderRadius: "999px",
-            fontSize: "24px",
-            fontWeight: "bold",
-          }}
-        >
-          order.addiseats.et
-        </div>
-      </div>
-    ),
-    { ...size }
-  );
-}
+import { ImageResponse } from "next/og";
+
+export const runtime = "nodejs";
+export const alt = "Addis Eats - Ethiopian Food Delivery";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+
+export default async function Image() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "radial-gradient(ellipse at 50% 30%, #156637 0%, #0d4324 55%, #062313 100%)",
+          color: "#ffffff",
+          textAlign: "center",
+          padding: "60px",
+          fontFamily: "system-ui, -apple-system, sans-serif",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "28px",
+            marginBottom: "26px",
+          }}
+        >
+          {/* Orange circular emblem with inner yellow dot */}
+          <div
+            style={{
+              width: "84px",
+              height: "84px",
+              borderRadius: "50%",
+              backgroundColor: "#e86b28",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <div
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                backgroundColor: "#fbc02d",
+              }}
+            />
+          </div>
+          <span
+            style={{
+              fontSize: "86px",
+              fontWeight: 800,
+              color: "#ffffff",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Addis Eats
+          </span>
+        </div>
+        <p
+          style={{
+            fontSize: "36px",
+            color: "#cbead6",
+            margin: 0,
+            maxWidth: "960px",
+            fontWeight: 500,
+            letterSpacing: "0.01em",
+          }}
+        >
+          Ethiopian food, delivered in Addis Ababa
+        </p>
+      </div>
+    ),
+    { ...size }
+  );
+}
