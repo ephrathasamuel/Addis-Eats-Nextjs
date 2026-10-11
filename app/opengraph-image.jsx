@@ -16,7 +16,7 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          background: "radial-gradient(ellipse at 50% 35%, #25174e 0%, #130a2a 55%, #080413 100%)",
+          background: "linear-gradient(135deg, #7c5cff 0%, #633de8 50%, #4a24c4 100%)",
           color: "#ffffff",
           textAlign: "center",
           padding: "60px",
@@ -24,47 +24,48 @@ export default async function Image() {
           position: "relative",
         }}
       >
-        {/* Glow halo behind logo */}
+        {/* Subtle decorative glow circles */}
         <div
           style={{
             position: "absolute",
-            width: "500px",
-            height: "500px",
+            width: "600px",
+            height: "600px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(124, 92, 255, 0.22) 0%, rgba(124, 92, 255, 0) 70%)",
-            top: "70px",
+            background: "radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 70%)",
+            top: "-100px",
+            left: "300px",
           }}
         />
 
+        {/* Brand Header: Crisp White Tile Logo + White Title */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "24px",
-            marginBottom: "20px",
+            gap: "28px",
+            marginBottom: "28px",
           }}
         >
-          {/* Addis Eats Signature Purple Brand Icon */}
           <div
             style={{
-              width: "88px",
-              height: "88px",
-              borderRadius: "24px",
-              background: "linear-gradient(135deg, #7c5cff 0%, #5b3fd1 100%)",
+              width: "100px",
+              height: "100px",
+              borderRadius: "28px",
+              backgroundColor: "#ffffff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 10px 30px rgba(124, 92, 255, 0.4)",
+              boxShadow: "0 12px 35px rgba(0, 0, 0, 0.22)",
             }}
           >
             <svg
-              width="48"
-              height="48"
+              width="54"
+              height="54"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#ffffff"
-              strokeWidth="2.2"
+              stroke="#5b3fd1"
+              strokeWidth="2.4"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -77,38 +78,55 @@ export default async function Image() {
           </div>
           <span
             style={{
-              fontSize: "88px",
-              fontWeight: 850,
+              fontSize: "92px",
+              fontWeight: 900,
               color: "#ffffff",
               letterSpacing: "-0.03em",
+              textShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
             }}
           >
             Addis Eats
           </span>
         </div>
 
-        <p
+        {/* High-Contrast Pill Tagline */}
+        <div
           style={{
-            fontSize: "38px",
-            color: "#a48fff",
-            margin: "0 0 18px",
-            fontWeight: 700,
-            letterSpacing: "-0.01em",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(255, 255, 255, 0.22)",
+            border: "1px solid rgba(255, 255, 255, 0.4)",
+            borderRadius: "999px",
+            padding: "12px 36px",
+            marginBottom: "22px",
+            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.12)",
           }}
         >
-          Authentic Ethiopian Food Delivery
-        </p>
+          <span
+            style={{
+              fontSize: "32px",
+              fontWeight: 700,
+              color: "#ffffff",
+              letterSpacing: "0.01em",
+            }}
+          >
+            Authentic Ethiopian Food Delivery
+          </span>
+        </div>
 
+        {/* Subtext */}
         <p
           style={{
             fontSize: "24px",
-            color: "#c9c4df",
+            color: "#f0ecff",
             margin: 0,
-            maxWidth: "880px",
-            fontWeight: 450,
+            maxWidth: "920px",
+            fontWeight: 500,
+            textShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
           }}
         >
-          Fresh Doro Wat, Sega Tibs, Kitfo and Vegetarian Bayenetu in Addis Ababa
+          Doro Wat | Sega Tibs | Kitfo | Fast Delivery Across Addis Ababa
         </p>
       </div>
     ),
