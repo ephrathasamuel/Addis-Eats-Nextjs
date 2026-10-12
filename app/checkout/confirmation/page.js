@@ -1,4 +1,5 @@
-import { getOrder } from "@/lib/orders";
+import { getOrder, getOrderFromCookies } from "@/lib/orders";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ClearCartOnMount } from "@/components/ClearCartOnMount";
@@ -7,7 +8,14 @@ export const dynamic = "force-dynamic";
 
 export default async function ConfirmationPage({ searchParams }) {
   const params = await searchParams;
-  const order = getOrder(params?.order);
+  const orderId = params?.order;
+
+  let order = orderId ? getOrder(orderId) : null;
+
+  if (!order && orderId) {
+    const cookieStore = await cookies();
+    order = getOrderFromCookies(orderId, cookieStore);
+  }
 
   if (!order) {
     notFound();
@@ -65,11 +73,11 @@ export default async function ConfirmationPage({ searchParams }) {
           </div>
         </div>
 
-        {/* Real-time Tracking Box */}
+        {/* Real time Tracking Box */}
         <div className="confirmation-tracking-prompt">
           <h3>Track Your Order Live</h3>
           <p>
-            Watch real-time status updates with automatic 5-second polling. You will receive notification as soon as your food leaves the kitchen.
+            Watch real time status updates with automatic 5 second polling. You will receive notification as soon as your food leaves the kitchen.
           </p>
         </div>
 

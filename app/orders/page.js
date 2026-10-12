@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { getSession } from "@/lib/session";
-import { getOrdersFor } from "@/lib/orders";
+import { getOrdersForUserWithCookies } from "@/lib/orders";
 import { OrderList } from "./OrderList";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +14,8 @@ export default async function OrdersPage() {
   }
 
   // Scoped Query: Always scoped to user.id from the verified session, limited to last 10
-  const orders = getOrdersFor(user.id).slice(0, 10);
+  const cookieStore = await cookies();
+  const orders = getOrdersForUserWithCookies(user.id, cookieStore).slice(0, 10);
 
   return (
     <main style={{ maxWidth: "760px", margin: "2rem auto", padding: "0 1.5rem" }}>

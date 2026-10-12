@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
-import { getOrder } from "@/lib/orders";
+import { getOrder, getOrderFromCookies } from "@/lib/orders";
 
 export async function GET(request, { params }) {
   const { id } = await params;
-  const order = getOrder(id);
+  let order = getOrder(id);
+
+  if (!order && id) {
+    order = getOrderFromCookies(id, request.cookies);
+  }
 
   if (!order) {
     return NextResponse.json({ error: `Order #${id} not found.` }, { status: 404 });

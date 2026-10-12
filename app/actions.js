@@ -2,8 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { validateOrder, validateSignIn } from "@/lib/validation";
-import { createOrder, cancelOrderRecord, updateOrderStatus } from "@/lib/orders";
+import { createOrder, cancelOrderRecord, updateOrderStatus, encodeOrder } from "@/lib/orders";
 import { getSession, createSession, clearSession } from "@/lib/session";
 
 /**
@@ -48,6 +49,42 @@ export async function placeOrder(formData) {
     deliveryFee,
     ownerToken: session?.token || "guest_token",
   });
+
+  try {
+    const cookieStore = await cookies();
+    const encodedOrder = encodeOrder(order);
+    cookieStore.set("last_order", encodedOrder, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
+    });
+
+    let recentOrders = [order];
+    const existingRecent = cookieStore.get("recent_orders")?.value;
+    if (existingRecent) {
+      try {
+        let prev = [];
+        try {
+          prev = JSON.parse(Buffer.from(existingRecent, "base64url").toString("utf8"));
+        } catch {
+          prev = JSON.parse(decodeURIComponent(existingRecent));
+        }
+        if (Array.isArray(prev)) {
+          recentOrders = [order, ...prev.filter((o) => String(o.id) !== String(order.id))].slice(0, 10);
+        }
+      } catch {}
+    }
+    const encodedRecent = Buffer.from(JSON.stringify(recentOrders)).toString("base64url");
+    cookieStore.set("recent_orders", encodedRecent, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
+    });
+  } catch {}
+
+  revalidatePath("/checkout/confirmation");
+  revalidatePath("/orders");
+  revalidatePath(`/orders/${order.id}`);
 
   redirect(`/checkout/confirmation?order=${order.id}`);
 }

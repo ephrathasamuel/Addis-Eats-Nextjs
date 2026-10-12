@@ -78,17 +78,15 @@ export default function CheckoutView({
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    try {
-      localStorage.removeItem("addis-eats-cart");
-      localStorage.removeItem("cart");
-      clearCart();
-    } catch {}
-
     startTransition(async () => {
       try {
         await placeOrder(formData);
       } catch (err) {
-        if (err?.message?.includes("NEXT_REDIRECT")) {
+        if (
+          err?.message?.includes("NEXT_REDIRECT") ||
+          err?.digest?.includes("NEXT_REDIRECT") ||
+          err?.name === "RedirectError"
+        ) {
           throw err;
         }
       }
