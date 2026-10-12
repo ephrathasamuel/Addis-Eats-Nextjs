@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { validateOrder } from "@/lib/validation";
 import { createOrder } from "@/lib/orders";
 import { randomUUID } from "crypto";
 
 // Same schema as the checkout form, enforced again here, because this
-// endpoint can be called by anyone with curl — not just our own UI.
+// endpoint can be called by anyone with curl - not just our own UI.
 
 export async function POST(request) {
   let body;

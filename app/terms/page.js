@@ -1,4 +1,4 @@
-// Static: no cookies, headers or searchParams read — prerendered once.
+﻿// Static: no cookies, headers or searchParams read - prerendered once.
 export default function TermsPage() {
   return (
     <div className="legal-page">

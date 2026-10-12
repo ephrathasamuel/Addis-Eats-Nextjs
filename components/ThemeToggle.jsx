@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 
 // The actual theme switch happens instantly via a blocking inline script in
 // app/layout.js (runs before paint, so there's no flash of the wrong
-// theme). This component just reflects and toggles that state — it reads
+// theme). This component just reflects and toggles that state - it reads
 // the data-theme attribute the inline script already set, rather than
 // deciding the theme itself.
 export function ThemeToggle() {

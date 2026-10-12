@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 
@@ -20,7 +20,7 @@ function CartProvider({ children }) {
   const [items, setItems] = useState([]);
   const [hydrated, setHydrated] = useState(false);
 
-  // Cart contents never leave the browser until checkout — read/write
+  // Cart contents never leave the browser until checkout - read/write
   // localStorage only, no fetch, no server round trip.
   useEffect(() => {
     try {
@@ -108,11 +108,11 @@ export function useCart() {
   return ctx;
 }
 
-// Favorites live in the browser the same way the cart does — a list of
+// Favorites live in the browser the same way the cart does - a list of
 // dish ids in localStorage, nothing sent to the server. /favorites also
 // checks the (non-httpOnly) user_name cookie to decide whether to show the
 // list or a "sign in first" prompt, but the favorites themselves are not
-// tied to an account on the server — signing out on this device does not
+// tied to an account on the server - signing out on this device does not
 // clear them.
 function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState([]);

@@ -28,8 +28,8 @@ export async function DishList({ category, page = 1 }) {
   return (
     <div>
       <div className="dish-grid">
-        {paginatedDishes.map((dish) => (
-          <DishCard key={dish.id} dish={dish} />
+        {paginatedDishes.map((dish, index) => (
+          <DishCard key={dish.id} dish={dish} priority={index < 2} />
         ))}
       </div>
 
@@ -50,7 +50,8 @@ export async function DishList({ category, page = 1 }) {
           ) : (
             <span
               className="btn-ghost"
-              style={{ opacity: 0.4, cursor: "not-allowed", pointerEvents: "none" }}
+              aria-disabled="true"
+              style={{ opacity: 0.6, cursor: "not-allowed", pointerEvents: "none" }}
             >
               ← Previous
             </span>
@@ -67,7 +68,8 @@ export async function DishList({ category, page = 1 }) {
           ) : (
             <span
               className="btn-ghost"
-              style={{ opacity: 0.4, cursor: "not-allowed", pointerEvents: "none" }}
+              aria-disabled="true"
+              style={{ opacity: 0.6, cursor: "not-allowed", pointerEvents: "none" }}
             >
               Next →
             </span>

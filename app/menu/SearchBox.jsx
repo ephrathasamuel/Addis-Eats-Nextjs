@@ -24,7 +24,10 @@ export function SearchBox() {
     <div style={{ marginBottom: "2rem" }}>
       <div style={{ position: "relative", maxWidth: "480px" }}>
         <input
+          id="menu-search-input"
+          name="search"
           type="search"
+          aria-label="Search dishes"
           placeholder="Search dishes (e.g. Doro Wat, Shiro, Burger, Pizza)..."
           value={term}
           onChange={(e) => setTerm(e.target.value)}
@@ -52,6 +55,7 @@ export function SearchBox() {
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -63,6 +67,7 @@ export function SearchBox() {
 
         {term && (
           <button
+            type="button"
             onClick={() => setTerm("")}
             style={{
               position: "absolute",
@@ -76,6 +81,7 @@ export function SearchBox() {
               fontSize: "1rem",
             }}
             title="Clear search"
+            aria-label="Clear search"
           >
             ✕
           </button>
@@ -85,9 +91,9 @@ export function SearchBox() {
       {isSearching && (
         <div style={{ marginTop: "1.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-            <h3 style={{ margin: 0, fontSize: "1.1rem" }}>
+            <h2 style={{ margin: 0, fontSize: "1.1rem" }}>
               Search results for &ldquo;{debounced}&rdquo;
-            </h3>
+            </h2>
             <span style={{ fontSize: "0.85rem", color: "var(--muted)" }}>
               {isValidating ? "Updating..." : `${Array.isArray(dishes) ? dishes.length : 0} found`}
             </span>
@@ -95,8 +101,8 @@ export function SearchBox() {
 
           {Array.isArray(dishes) && dishes.length > 0 ? (
             <div className="dish-grid">
-              {dishes.map((dish) => (
-                <DishCard key={dish.id} dish={dish} />
+              {dishes.map((dish, index) => (
+                <DishCard key={dish.id} dish={dish} priority={index < 2} />
               ))}
             </div>
           ) : !isValidating ? (

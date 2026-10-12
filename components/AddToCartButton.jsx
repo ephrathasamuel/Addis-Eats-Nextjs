@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useCart } from "@/components/Providers";
@@ -8,7 +8,7 @@ export function AddToCartButton({ dish, size = "default" }) {
   const [justAdded, setJustAdded] = useState(false);
 
   function handleClick(e) {
-    // DishCard wraps this in a Link (photo/title go to the dish page) —
+    // DishCard wraps this in a Link (photo/title go to the dish page) -
     // stop the click from also triggering that navigation.
     e.preventDefault();
     e.stopPropagation();

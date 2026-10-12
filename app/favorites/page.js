@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { DishCard } from "@/components/DishCard";
 
 // Client-rendered for the same reason /cart is: favorites live only in this
 // browser's localStorage, so there is nothing for the server to prerender.
-// Gated behind sign-in (checked the same way AuthStatus does — the
+// Gated behind sign-in (checked the same way AuthStatus does - the
 // non-httpOnly user_name cookie) because favorites are framed as an
 // account feature here, even though the data itself stays device-local.
 export default function FavoritesPage() {

@@ -51,12 +51,14 @@ export async function placeOrder(formData) {
   });
 
   try {
+    const isProd = process.env.NODE_ENV === "production";
     const cookieStore = await cookies();
     const encodedOrder = encodeOrder(order);
     cookieStore.set("last_order", encodedOrder, {
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
       sameSite: "lax",
+      secure: isProd,
     });
 
     let recentOrders = [order];
@@ -79,6 +81,7 @@ export async function placeOrder(formData) {
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
       sameSite: "lax",
+      secure: isProd,
     });
   } catch {}
 

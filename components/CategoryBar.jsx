@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-// The only interactivity here is "which category is selected" — that's a
+// The only interactivity here is "which category is selected" - that's a
 // URL search param, not component state, so the sidebar survives navigation
 // to a dish and back without losing its place.
 

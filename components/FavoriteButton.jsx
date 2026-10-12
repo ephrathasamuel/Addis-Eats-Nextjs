@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useFavorites } from "@/components/Providers";
 
-// A drawn SVG heart, not an emoji character — outlined when not favorited,
+// A drawn SVG heart, not an emoji character - outlined when not favorited,
 // filled solid when it is. onClick toggles the dish in the favorites list.
 export function FavoriteButton({ dish, size = "card" }) {
   const { isFavorite, toggleFavorite } = useFavorites();
