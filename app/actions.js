@@ -14,6 +14,8 @@ export async function placeOrder(formData) {
   const name = formData.get("name");
   const phone = formData.get("phone");
   const itemsRaw = formData.get("items");
+  const location = formData.get("location") || "Bole";
+  const deliveryFee = formData.get("deliveryFee") ? Number(formData.get("deliveryFee")) : 50;
 
   let items = [];
   try {
@@ -29,6 +31,7 @@ export async function placeOrder(formData) {
     params.set("items", itemsRaw || "[]");
     params.set("name", name || "");
     params.set("phone", phone || "");
+    params.set("location", location);
     params.set("error", JSON.stringify(fieldErrors));
     redirect(`/checkout?${params.toString()}`);
   }
@@ -41,6 +44,8 @@ export async function placeOrder(formData) {
     name,
     phone,
     items,
+    location,
+    deliveryFee,
     ownerToken: session?.token || "guest_token",
   });
 

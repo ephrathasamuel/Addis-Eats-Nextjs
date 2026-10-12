@@ -51,10 +51,11 @@ export function OrderStatus({ id, initial }) {
   };
 
   const badge = getStatusBadge(current.status);
+  const isCooking = current.status === "placed" || current.status === "preparing";
 
   return (
-    <div style={{ maxWidth: "620px", margin: "1rem auto", padding: "0 1rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+    <div className="order-status-container">
+      <div className="order-status-header">
         <h1 style={{ margin: 0 }}>Order #{current.id}</h1>
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <span
@@ -74,13 +75,14 @@ export function OrderStatus({ id, initial }) {
         </div>
       </div>
 
+      {/* Status Badge Card */}
       <div
         style={{
           padding: "1.25rem 1.5rem",
           borderRadius: "20px",
           backgroundColor: badge.bg,
           border: "1px solid var(--border)",
-          marginBottom: "1.75rem",
+          marginBottom: "1rem",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -97,20 +99,47 @@ export function OrderStatus({ id, initial }) {
           </div>
         </div>
 
-        {current.status !== "delivered" && (
+        {current.status === "on-the-way" && (
           <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--muted)" }}>
-              Estimated Wait
+              Driver Estimated Wait
             </div>
-            <div style={{ fontSize: "1.1rem", fontWeight: "600", color: "var(--text)", marginTop: "0.2rem" }}>
-              {current.status === "on-the-way" ? "5 to 10 mins" : "15 to 20 mins"}
+            <div style={{ fontSize: "1.1rem", fontWeight: "700", color: badge.color, marginTop: "0.2rem" }}>
+              5 to 10 mins
             </div>
             <div style={{ fontSize: "0.78rem", color: "var(--muted)", marginTop: "0.25rem" }}>
-              Drive time only; excludes cooking
+              Driver is on the way {current.location ? `to ${current.location}` : ""}
+            </div>
+          </div>
+        )}
+
+        {isCooking && (
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--muted)" }}>
+              Kitchen Status
+            </div>
+            <div style={{ fontSize: "1.05rem", fontWeight: "700", color: badge.color, marginTop: "0.2rem" }}>
+              Cooking Fresh
             </div>
           </div>
         )}
       </div>
+
+      {/* Cooking Notice: Customer notification that food is being cooked and on the way soon */}
+      {isCooking && (
+        <div className="kitchen-notification-banner">
+          <div className="kitchen-notification-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <div className="kitchen-notification-text">
+            <strong>Kitchen Notification</strong>
+            <p>Your food is being cooked and it will be on the way soon.</p>
+          </div>
+        </div>
+      )}
 
       {current.status === "delivered" && !deliveredConfirmed && (
         <div
@@ -176,7 +205,7 @@ export function OrderStatus({ id, initial }) {
                       }}
                       aria-label={`${star} star`}
                     >
-                      ★
+                      *
                     </button>
                   ))}
                 </div>
@@ -218,6 +247,7 @@ export function OrderStatus({ id, initial }) {
         </div>
       )}
 
+      {/* Order Details & Items */}
       <div
         style={{
           background: "var(--card-bg)",
@@ -232,6 +262,11 @@ export function OrderStatus({ id, initial }) {
         <p style={{ margin: "0.3rem 0", color: "var(--muted)" }}>
           <strong style={{ color: "var(--text)" }}>Customer:</strong> {current.name} ({current.phone})
         </p>
+        {current.location && (
+          <p style={{ margin: "0.3rem 0", color: "var(--muted)" }}>
+            <strong style={{ color: "var(--text)" }}>Delivery Location:</strong> {current.location}
+          </p>
+        )}
         <p style={{ margin: "0.3rem 0", color: "var(--muted)" }}>
           <strong style={{ color: "var(--text)" }}>Placed at:</strong>{" "}
           {new Date(current.createdAt).toLocaleTimeString()}
@@ -271,22 +306,24 @@ export function OrderStatus({ id, initial }) {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
             marginTop: "1.25rem",
-            paddingTop: "0.5rem",
-            fontSize: "1.15rem",
-            fontWeight: "700",
+            paddingTop: "0.85rem",
+            borderTop: "1px dashed var(--border)",
+            fontSize: "1.1rem",
+            fontWeight: "750",
           }}
         >
-          <span>Total</span>
-          <span style={{ color: "var(--brand-dark)" }}>{current.total} ETB</span>
+          <span>Total Paid</span>
+          <span className="grand-total-val">{current.total} ETB</span>
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
-        <Link href="/menu" className="btn-primary">
+      <div className="order-status-actions">
+        <Link href="/menu" className="btn-primary order-action-btn">
           Order more dishes
         </Link>
-        <Link href="/" className="btn-ghost">
+        <Link href="/" className="btn-ghost order-action-btn">
           Return home
         </Link>
         {current.status === "placed" && isWithinFiveMinutes && (
@@ -294,17 +331,7 @@ export function OrderStatus({ id, initial }) {
             type="button"
             onClick={handleCancelRequest}
             disabled={cancelling}
-            style={{
-              background: "transparent",
-              color: "var(--danger)",
-              border: "1px solid var(--danger)",
-              borderRadius: "980px",
-              padding: "0.5rem 1.1rem",
-              fontSize: "0.9rem",
-              fontWeight: "600",
-              cursor: "pointer",
-              marginLeft: "auto",
-            }}
+            className="cancel-request-btn"
           >
             {cancelling ? "Requesting..." : "Cancel Request"}
           </button>

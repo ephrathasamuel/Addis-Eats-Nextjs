@@ -1,7 +1,6 @@
 "use client";
 
 import { getDishByIdSync, getDishByNameSync } from "@/lib/dishes";
-
 import Link from "next/link";
 import { cancelOrder } from "@/app/actions";
 import { useState } from "react";
@@ -49,11 +48,12 @@ export function OrderList({ orders }) {
             boxShadow: "0 2px 8px var(--shadow-color)",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
             <div>
               <h3 style={{ margin: 0, fontSize: "1.15rem" }}>Order #{order.id}</h3>
               <span style={{ fontSize: "0.85rem", color: "var(--muted)" }}>
                 {new Date(order.createdAt).toLocaleString()}
+                {order.location ? ` | ${order.location}` : ""}
               </span>
             </div>
             <span
@@ -103,7 +103,7 @@ export function OrderList({ orders }) {
                     </div>
                     <div className="num-pill num-pill--total" role="cell">
                       <span className="num-pill__label">Total</span>
-                      <span className="num-pill__val">{item.price * item.qty} ETB</span>
+                      <span className="num-pill__val" style={{ whiteSpace: "nowrap" }}>{item.price * item.qty} ETB</span>
                     </div>
                   </div>
                 </div>
@@ -116,18 +116,20 @@ export function OrderList({ orders }) {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              flexWrap: "wrap",
+              gap: "0.75rem",
               paddingTop: "0.75rem",
               borderTop: "1px solid var(--border)",
             }}
           >
-            <div>
-              <span style={{ fontSize: "0.9rem", color: "var(--muted)" }}>Total Paid: </span>
-              <strong style={{ fontSize: "1.1rem", color: "var(--brand-dark)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+              <span style={{ fontSize: "0.9rem", color: "var(--muted)" }}>Total Paid:</span>
+              <strong style={{ fontSize: "1.1rem", color: "var(--brand-dark)", whiteSpace: "nowrap" }}>
                 {order.total} ETB
               </strong>
             </div>
 
-            <div style={{ display: "flex", gap: "0.75rem" }}>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
               <Link href={`/orders/${order.id}`} className="btn-ghost" style={{ fontSize: "0.85rem" }}>
                 Live Tracking →
               </Link>

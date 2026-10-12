@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { placeOrder } from "@/app/actions";
+import { useCart } from "@/components/Providers";
 
 export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "", fieldErrors = {} }) {
-  const [name, setName] = useState(initialName);
-  const [phone, setPhone] = useState(initialPhone);
+  const { clearCart } = useCart();
+  const [name, setName] = useState(initialName || "");
+  const [phone, setPhone] = useState(initialPhone || "");
   const [errors, setErrors] = useState(fieldErrors);
   const [pending, setPending] = useState(false);
 
@@ -14,10 +16,9 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
     if (!cleaned) {
       return "Phone number is required";
     }
-    // Ethiopian phone formats: 09XXXXXXXX, 07XXXXXXXX, +2519XXXXXXXX
     const etPhoneRegex = /^(?:\+251|0)[97]\d{8}$/;
     if (!etPhoneRegex.test(cleaned)) {
-      return "Enter a valid Ethiopian phone number (e.g. 0911234567 or 0712345678)";
+      return "Enter a valid Ethiopian phone number (e.g. 0912345678 or 0712345678)";
     }
     return null;
   }
@@ -26,7 +27,7 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
     const err = validatePhone(phone);
     setErrors((prev) => ({
       ...prev,
-      phone: err
+      phone: err,
     }));
   }
 
@@ -48,11 +49,13 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
       return;
     }
 
-    // Mark as pending to disable submit button and prevent double submit
-    setPending(true);
+    try {
+      localStorage.removeItem("addis-eats-cart");
+      localStorage.removeItem("cart");
+      clearCart();
+    } catch {}
 
-    // Let the form submit naturally to the Server Action, or invoke it directly.
-    // Standard HTML form submit ensures server action redirect works seamlessly.
+    setPending(true);
   }
 
   return (
@@ -70,7 +73,7 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
             setName(e.target.value);
             if (errors.name) setErrors((prev) => ({ ...prev, name: null }));
           }}
-          placeholder="e.g. Almaz Bekele"
+          placeholder="Betelhem Abebe"
           required
           autoComplete="name"
           aria-invalid={Boolean(errors.name)}
@@ -96,7 +99,7 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
             if (errors.phone) setErrors((prev) => ({ ...prev, phone: null }));
           }}
           onBlur={handlePhoneBlur}
-          placeholder="09XXXXXXXX"
+          placeholder="0912345678"
           required
           autoComplete="tel"
           aria-invalid={Boolean(errors.phone)}
@@ -115,7 +118,7 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
         className="primary btn-block checkout-submit-btn"
         aria-busy={pending}
       >
-        {pending ? "Placing…" : "Place order"}
+        {pending ? "Placing..." : "Place order"}
       </button>
     </form>
   );
