@@ -129,10 +129,12 @@ export function OrderList({ orders }) {
               </strong>
             </div>
 
-            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-              <Link href={`/orders/${order.id}`} className="btn-ghost" style={{ fontSize: "0.85rem" }}>
-                Live Tracking →
-              </Link>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
+              {order.status !== "cancelled" && (
+                <Link href={`/orders/${order.id}`} className="btn-ghost" style={{ fontSize: "0.85rem" }}>
+                  Live Tracking →
+                </Link>
+              )}
               {order.status === "placed" && (Date.now() - new Date(order.createdAt).getTime()) < 5 * 60 * 1000 && (
                 <button
                   onClick={() => handleCancel(order.id)}

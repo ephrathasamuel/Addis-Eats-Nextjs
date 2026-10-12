@@ -8,7 +8,7 @@ import Link from "next/link";
 import { cancelOrder } from "@/app/actions";
 
 export function OrderStatus({ id, initial }) {
-  const { data: order } = useSWR(`/api/orders/${id}`, fetcher, {
+  const { data: order, mutate } = useSWR(`/api/orders/${id}`, fetcher, {
     fallbackData: initial,
     refreshInterval: 5000,
   });
@@ -30,7 +30,9 @@ export function OrderStatus({ id, initial }) {
     setCancelling(true);
     const res = await cancelOrder(current.id);
     setCancelling(false);
-    if (!res?.ok) {
+    if (res?.ok) {
+      mutate({ ...current, status: "cancelled" }, false);
+    } else {
       alert(res?.error || "Failed to cancel order.");
     }
   };
@@ -64,13 +66,25 @@ export function OrderStatus({ id, initial }) {
               width: "10px",
               height: "10px",
               borderRadius: "50%",
-              backgroundColor: current.status === "delivered" ? "#16a34a" : "#7c5cff",
+              backgroundColor:
+                current.status === "delivered"
+                  ? "#16a34a"
+                  : current.status === "cancelled"
+                  ? "#dc2626"
+                  : "#7c5cff",
               boxShadow: "0 0 8px currentColor",
-              animation: current.status !== "delivered" ? "pulse 2s infinite" : "none",
+              animation:
+                current.status !== "delivered" && current.status !== "cancelled"
+                  ? "pulse 2s infinite"
+                  : "none",
             }}
           />
           <span style={{ fontSize: "0.85rem", color: "var(--muted)" }}>
-            {current.status === "delivered" ? "Completed" : "Live polling (every 5s)"}
+            {current.status === "delivered"
+              ? "Completed"
+              : current.status === "cancelled"
+              ? "Cancelled"
+              : "Live polling (every 5s)"}
           </span>
         </div>
       </div>

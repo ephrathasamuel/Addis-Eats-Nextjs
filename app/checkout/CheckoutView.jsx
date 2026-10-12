@@ -150,8 +150,8 @@ export default function CheckoutView({
                         <Image
                           src={imageUrl}
                           alt={item.name}
-                          width={92}
-                          height={92}
+                          width={72}
+                          height={72}
                           className="checkout-dish-thumb"
                           style={{ objectFit: "cover" }}
                         />
@@ -161,21 +161,20 @@ export default function CheckoutView({
                         {category && (
                           <span className="checkout-dish-category-chip">{category}</span>
                         )}
+                        <div className="checkout-dish-unit-price">
+                          <span>{item.price} ETB</span>
+                        </div>
                       </div>
                     </div>
 
                     <div className="checkout-numbers-table" role="table" aria-label={`Pricing for ${item.name}`}>
-                      <div className="num-pill" role="cell">
+                      <div className="num-pill num-pill--qty" role="cell">
                         <span className="num-pill__label">Quantity</span>
                         <span className="num-pill__val">{item.qty}</span>
                       </div>
-                      <div className="num-pill" role="cell">
-                        <span className="num-pill__label">Unit Price</span>
-                        <span className="num-pill__val">{item.price} ETB</span>
-                      </div>
                       <div className="num-pill num-pill--total" role="cell">
-                        <span className="num-pill__label">Item Total</span>
-                        <span className="num-pill__val">{item.price * item.qty} ETB</span>
+                        <span className="num-pill__label">Total Price</span>
+                        <span className="num-pill__val" style={{ whiteSpace: "nowrap" }}>{item.price * item.qty} ETB</span>
                       </div>
                     </div>
                   </article>
