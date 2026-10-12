@@ -70,7 +70,7 @@ export const metadata = {
 
         height: 630,
 
-        alt: "Addis Eats - Authentic Ethiopian Food Delivery",
+        alt: "Addis Eats Authentic Ethiopian Food Delivery",
 
         type: "image/png",
 

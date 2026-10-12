@@ -262,16 +262,7 @@ export function OrderStatus({ id, initial }) {
       )}
 
       {/* Order Details & Items */}
-      <div
-        style={{
-          background: "var(--card-bg)",
-          borderRadius: "20px",
-          padding: "1.75rem",
-          border: "1px solid var(--border)",
-          boxShadow: "0 4px 12px var(--shadow-color)",
-          marginBottom: "1.5rem",
-        }}
-      >
+      <div className="order-details-card">
         <h3 style={{ marginTop: 0, marginBottom: "0.75rem" }}>Order Details</h3>
         <p style={{ margin: "0.3rem 0", color: "var(--muted)" }}>
           <strong style={{ color: "var(--text)" }}>Customer:</strong> {current.name} ({current.phone})

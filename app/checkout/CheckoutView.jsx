@@ -8,14 +8,14 @@ import { useCart } from "@/components/Providers";
 import { getDishByIdSync, getDishByNameSync } from "@/lib/dishes";
 
 export const ADDIS_LOCATIONS = [
-  { id: "bole", name: "Bole", fee: 50, drivingTime: "20 - 30 Mins" },
-  { id: "kazanchis", name: "Kazanchis", fee: 40, drivingTime: "15 - 25 Mins" },
-  { id: "sarbet", name: "Sarbet", fee: 50, drivingTime: "20 - 30 Mins" },
-  { id: "piassa", name: "Piassa", fee: 60, drivingTime: "25 - 35 Mins" },
-  { id: "cmc", name: "CMC", fee: 80, drivingTime: "35 - 45 Mins" },
-  { id: "mexico", name: "Mexico / Lideta", fee: 45, drivingTime: "20 - 30 Mins" },
-  { id: "4kilo", name: "4 Kilo", fee: 50, drivingTime: "20 - 30 Mins" },
-  { id: "ayat", name: "Ayat", fee: 90, drivingTime: "40 - 50 Mins" },
+  { id: "bole", name: "Bole", fee: 50, drivingTime: "20 30 Mins" },
+  { id: "kazanchis", name: "Kazanchis", fee: 40, drivingTime: "15 25 Mins" },
+  { id: "sarbet", name: "Sarbet", fee: 50, drivingTime: "20 30 Mins" },
+  { id: "piassa", name: "Piassa", fee: 60, drivingTime: "25 35 Mins" },
+  { id: "cmc", name: "CMC", fee: 80, drivingTime: "35 45 Mins" },
+  { id: "mexico", name: "Mexico / Lideta", fee: 45, drivingTime: "20 30 Mins" },
+  { id: "4kilo", name: "4 Kilo", fee: 50, drivingTime: "20 30 Mins" },
+  { id: "ayat", name: "Ayat", fee: 90, drivingTime: "40 50 Mins" },
 ];
 
 export default function CheckoutView({
@@ -245,7 +245,7 @@ export default function CheckoutView({
                 >
                   {ADDIS_LOCATIONS.map((loc) => (
                     <option key={loc.id} value={loc.name}>
-                      {loc.name} - {loc.fee} ETB ({loc.drivingTime})
+                      {loc.name} {loc.fee} ETB ({loc.drivingTime})
                     </option>
                   ))}
                 </select>

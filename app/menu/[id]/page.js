@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${dish.name} - ${dish.price} ETB`,
+    title: `${dish.name} ${dish.price} ETB`,
     description: `${dish.description} Order online from Addis Eats.`,
     openGraph: {
       title: `${dish.name} | Addis Eats`,
