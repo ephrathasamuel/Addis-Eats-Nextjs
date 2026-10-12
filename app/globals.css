@@ -612,11 +612,25 @@ main {
 
   max-width: 1040px;
 
+  width: 100%;
+
   margin: 0 auto;
 
   padding: 2rem 1.5rem 4rem;
 
   min-height: 60vh;
+
+  box-sizing: border-box;
+
+}
+
+@media (max-width: 600px) {
+
+  main {
+
+    padding: 1.25rem 1rem 3.5rem;
+
+  }
 
 }
 
@@ -2108,9 +2122,13 @@ button:active:not(:disabled),
 
   max-width: 1040px;
 
+  width: 100%;
+
   margin: 0 auto;
 
   padding-bottom: 3.5rem;
+
+  box-sizing: border-box;
 
 }
 
@@ -2186,6 +2204,12 @@ button:active:not(:disabled),
 
   align-items: start;
 
+  width: 100%;
+
+  margin: 0 auto;
+
+  box-sizing: border-box;
+
 }
 
 @media (max-width: 860px) {
@@ -2193,6 +2217,10 @@ button:active:not(:disabled),
   .checkout-grid {
 
     grid-template-columns: 1fr;
+
+    width: 100%;
+
+    margin: 0 auto;
 
   }
 
@@ -2209,6 +2237,26 @@ button:active:not(:disabled),
   padding: 1.8rem;
 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  margin-left: auto;
+
+  margin-right: auto;
+
+}
+
+@media (max-width: 600px) {
+
+  .checkout-card {
+
+    padding: 1.15rem 1rem;
+
+    border-radius: 18px;
+
+  }
 
 }
 
@@ -2288,6 +2336,8 @@ button:active:not(:disabled),
   border: 1px solid var(--border);
   border-radius: 16px;
   margin-bottom: 0.85rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .checkout-dish-media {
@@ -3186,21 +3236,24 @@ button:active:not(:disabled),
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.65rem;
-  padding: 0.65rem 0.85rem;
+  gap: 1.25rem;
+  padding: 0.85rem 1.15rem;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
+  min-height: 84px;
+  box-sizing: border-box;
 }
 
 .order-item-media {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.35rem;
+  justify-content: center;
+  gap: 0.4rem;
   text-align: left;
-  flex: 1;
-  min-width: 0;
+  flex-shrink: 0;
+  max-width: 52%;
   margin-left: 0;
 }
 
@@ -3238,9 +3291,10 @@ button:active:not(:disabled),
 .order-item-tables {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.75rem;
   flex-shrink: 0;
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .order-item-tables .num-pill {
@@ -3250,23 +3304,24 @@ button:active:not(:disabled),
   justify-content: center;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.2rem 0.45rem;
-  min-width: 36px;
+  border-radius: 10px;
+  padding: 0.4rem 0.75rem;
+  min-width: 56px;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .order-item-tables .num-pill__label {
-  font-size: 0.55rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
-  font-weight: 650;
+  font-weight: 700;
   color: var(--muted);
   letter-spacing: 0.04em;
-  margin-bottom: 0.05rem;
+  margin-bottom: 0.08rem;
 }
 
 .order-item-tables .num-pill__val {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 750;
   color: var(--text);
   text-align: center;
@@ -3275,13 +3330,14 @@ button:active:not(:disabled),
 .order-item-tables .num-pill--total {
   background: var(--brand-light);
   border: 1px solid rgba(124, 92, 255, 0.2);
-  min-width: unset;
-  padding: 0.2rem 0.55rem;
+  min-width: 82px;
+  padding: 0.4rem 0.85rem;
 }
 
 .order-item-tables .num-pill--total .num-pill__val {
   color: var(--brand-dark);
   white-space: nowrap;
+  font-weight: 800;
 }
 
 .profile-cart-total-bar {
@@ -3818,6 +3874,36 @@ button:active:not(:disabled),
 }
 
 @media (max-width: 600px) {
+  .order-item-card {
+    padding: 0.75rem 0.85rem;
+    gap: 0.85rem;
+    min-height: 80px;
+  }
+
+  .order-item-media {
+    max-width: 48%;
+  }
+
+  .order-item-frame {
+    width: 50px;
+    height: 50px;
+  }
+
+  .order-item-tables {
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .order-item-tables .num-pill {
+    min-width: 48px;
+    padding: 0.35rem 0.55rem;
+  }
+
+  .order-item-tables .num-pill--total {
+    min-width: 74px;
+    padding: 0.35rem 0.65rem;
+  }
+
   .order-status-actions {
     flex-direction: column;
     width: 100%;
