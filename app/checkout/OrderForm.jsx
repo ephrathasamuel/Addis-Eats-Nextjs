@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { placeOrder } from "@/app/actions";
 import { useCart } from "@/components/Providers";
 
@@ -9,7 +9,7 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
   const [name, setName] = useState(initialName || "");
   const [phone, setPhone] = useState(initialPhone || "");
   const [errors, setErrors] = useState(fieldErrors);
-  const [pending, setPending] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   function validatePhone(value) {
     const cleaned = value.replace(/[\s-]/g, "");
@@ -32,22 +32,21 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
   }
 
   async function handleSubmit(e) {
-    if (pending) {
-      e.preventDefault();
-      return;
-    }
+    e.preventDefault();
+    if (isPending) return;
 
     const phoneErr = validatePhone(phone);
     if (!name.trim()) {
-      e.preventDefault();
       setErrors((prev) => ({ ...prev, name: "Name is required" }));
       return;
     }
     if (phoneErr) {
-      e.preventDefault();
       setErrors((prev) => ({ ...prev, phone: phoneErr }));
       return;
     }
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
     try {
       localStorage.removeItem("addis-eats-cart");
@@ -55,11 +54,19 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
       clearCart();
     } catch {}
 
-    setPending(true);
+    startTransition(async () => {
+      try {
+        await placeOrder(formData);
+      } catch (err) {
+        if (err?.message?.includes("NEXT_REDIRECT")) {
+          throw err;
+        }
+      }
+    });
   }
 
   return (
-    <form action={placeOrder} onSubmit={handleSubmit} noValidate className="order-form">
+    <form onSubmit={handleSubmit} noValidate className="order-form">
       <input type="hidden" name="items" value={itemsRaw} />
 
       <div className="field">
@@ -114,11 +121,11 @@ export default function OrderForm({ itemsRaw, initialName = "", initialPhone = "
 
       <button
         type="submit"
-        disabled={pending}
+        disabled={isPending}
         className="primary btn-block checkout-submit-btn"
-        aria-busy={pending}
+        aria-busy={isPending}
       >
-        {pending ? "Placing..." : "Place order"}
+        {isPending ? "Placing..." : "Place order"}
       </button>
     </form>
   );

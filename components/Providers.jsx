@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 
 const CartContext = createContext(null);
 const FavoritesContext = createContext(null);
@@ -41,7 +41,11 @@ function CartProvider({ children }) {
     }
   }, [items, hydrated]);
 
-  function addItem(dish) {
+  const removeItem = useCallback((id) => {
+    setItems((prev) => prev.filter((i) => i.id !== id));
+  }, []);
+
+  const addItem = useCallback((dish) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.id === dish.id);
       if (existing) {
@@ -61,9 +65,9 @@ function CartProvider({ children }) {
         },
       ];
     });
-  }
+  }, []);
 
-  function updateQty(id, newQty) {
+  const updateQty = useCallback((id, newQty) => {
     if (newQty <= 0) {
       removeItem(id);
       return;
@@ -71,22 +75,28 @@ function CartProvider({ children }) {
     setItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, qty: newQty } : i))
     );
-  }
+  }, [removeItem]);
 
-  function removeItem(id) {
-    setItems((prev) => prev.filter((i) => i.id !== id));
-  }
-
-  function clearCart() {
+  const clearCart = useCallback(() => {
     setItems([]);
-  }
+  }, []);
 
-  const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const total = useMemo(() => {
+    return items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  }, [items]);
+
+  const contextValue = useMemo(() => ({
+    items,
+    addItem,
+    updateQty,
+    removeItem,
+    clearCart,
+    total,
+    hydrated,
+  }), [items, addItem, updateQty, removeItem, clearCart, total, hydrated]);
 
   return (
-    <CartContext.Provider
-      value={{ items, addItem, updateQty, removeItem, clearCart, total, hydrated }}
-    >
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );

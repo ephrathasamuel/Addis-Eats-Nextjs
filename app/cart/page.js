@@ -71,7 +71,7 @@ export default function CartPage() {
       </div>
 
       <div className="cart-grid">
-        {/* Left Column: Dish List */}
+        {/* Left Column: Selected Dishes List */}
         <section className="checkout-card" aria-label="Cart items list">
           <div className="checkout-card__header">
             <h2>Selected Dishes ({items.reduce((sum, i) => sum + i.qty, 0)})</h2>
@@ -84,11 +84,10 @@ export default function CartPage() {
             {items.map((item) => {
               const dish = getDishByIdSync(item.id) || getDishByNameSync(item.name);
               const imageUrl = item.image || dish?.image || "/images/food/doro-wat.jpg";
-              const category = item.category || dish?.category;
 
               return (
                 <article key={item.id} className="cart-dish-card">
-                  {/* Left: Food thumbnail, name/category description, and unit price */}
+                  {/* Left Column: Picture, then below it Name and Price */}
                   <div className="cart-dish-left">
                     <div className="cart-dish-thumb-wrap">
                       <Image
@@ -102,51 +101,63 @@ export default function CartPage() {
                     </div>
                     <div className="cart-dish-info">
                       <h3 className="cart-dish-name">{item.name}</h3>
-                      {category && (
-                        <span className="cart-dish-category">{category}</span>
-                      )}
-                      <div className="cart-dish-unit-price">
-                        <span>{item.price} ETB</span>
-                      </div>
+                      <div className="cart-dish-price">{item.price} ETB</div>
                     </div>
                   </div>
 
-                  {/* Right: Quantity controls and item total with remove button */}
+                  {/* Right Column: Quantity then Trash Bin, then below it Total */}
                   <div className="cart-dish-right">
-                    <div className="cart-dish-stepper">
+                    <div className="cart-dish-controls-row">
+                      <div className="cart-dish-stepper">
+                        <button
+                          type="button"
+                          className="qty-btn"
+                          onClick={() => updateQty(item.id, item.qty - 1)}
+                          aria-label={`Decrease ${item.name} quantity`}
+                        >
+                          -
+                        </button>
+                        <span className="qty-val">{item.qty}</span>
+                        <button
+                          type="button"
+                          className="qty-btn"
+                          onClick={() => updateQty(item.id, item.qty + 1)}
+                          aria-label={`Increase ${item.name} quantity`}
+                        >
+                          +
+                        </button>
+                      </div>
+
                       <button
                         type="button"
-                        className="qty-btn"
-                        onClick={() => updateQty(item.id, item.qty - 1)}
-                        aria-label={`Decrease ${item.name} quantity`}
+                        className="cart-trash-btn"
+                        onClick={() => removeItem(item.id)}
+                        aria-label={`Remove ${item.name} from cart`}
+                        title="Remove dish"
                       >
-                        -
-                      </button>
-                      <span className="qty-val">{item.qty}</span>
-                      <button
-                        type="button"
-                        className="qty-btn"
-                        onClick={() => updateQty(item.id, item.qty + 1)}
-                        aria-label={`Increase ${item.name} quantity`}
-                      >
-                        +
+                        <svg
+                          width="17"
+                          height="17"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          <line x1="10" y1="11" x2="10" y2="17" />
+                          <line x1="14" y1="11" x2="14" y2="17" />
+                        </svg>
                       </button>
                     </div>
 
                     <div className="cart-dish-total-box">
-                      <span className="cart-dish-total-label">Total</span>
+                      <span className="cart-dish-total-label">Total:</span>
                       <span className="cart-dish-total-val">{item.price * item.qty} ETB</span>
                     </div>
-
-                    <button
-                      type="button"
-                      className="cart-remove-btn"
-                      onClick={() => removeItem(item.id)}
-                      aria-label={`Remove ${item.name} from cart`}
-                      title="Remove dish"
-                    >
-                      ✕
-                    </button>
                   </div>
                 </article>
               );

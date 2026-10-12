@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { placeOrder } from "@/app/actions";
 import { useCart } from "@/components/Providers";
 import { getDishByIdSync, getDishByNameSync } from "@/lib/dishes";
@@ -32,7 +32,7 @@ export default function CheckoutView({
   const [name, setName] = useState(initialName);
   const [phone, setPhone] = useState(initialPhone);
   const [errors, setErrors] = useState(fieldErrors);
-  const [pending, setPending] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
   const locationObj =
@@ -62,22 +62,21 @@ export default function CheckoutView({
   }
 
   async function handleSubmit(e) {
-    if (pending) {
-      e.preventDefault();
-      return;
-    }
+    e.preventDefault();
+    if (isPending) return;
 
     const phoneErr = validatePhone(phone);
     if (!name.trim()) {
-      e.preventDefault();
       setErrors((prev) => ({ ...prev, name: "Name is required" }));
       return;
     }
     if (phoneErr) {
-      e.preventDefault();
       setErrors((prev) => ({ ...prev, phone: phoneErr }));
       return;
     }
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
     try {
       localStorage.removeItem("addis-eats-cart");
@@ -85,7 +84,15 @@ export default function CheckoutView({
       clearCart();
     } catch {}
 
-    setPending(true);
+    startTransition(async () => {
+      try {
+        await placeOrder(formData);
+      } catch (err) {
+        if (err?.message?.includes("NEXT_REDIRECT")) {
+          throw err;
+        }
+      }
+    });
   }
 
   return (
@@ -223,7 +230,7 @@ export default function CheckoutView({
               <h2 id="delivery-details-heading">Delivery Details</h2>
             </div>
 
-            <form action={placeOrder} onSubmit={handleSubmit} noValidate className="order-form">
+            <form onSubmit={handleSubmit} noValidate className="order-form">
               <input type="hidden" name="items" value={itemsRaw} />
               <input type="hidden" name="location" value={locationObj.name} />
               <input type="hidden" name="deliveryFee" value={deliveryFee} />
@@ -320,11 +327,11 @@ export default function CheckoutView({
 
               <button
                 type="submit"
-                disabled={pending}
+                disabled={isPending}
                 className="primary btn-block checkout-submit-btn"
-                aria-busy={pending}
+                aria-busy={isPending}
               >
-                {pending ? "Placing..." : "Place order"}
+                {isPending ? "Placing..." : "Place order"}
               </button>
             </form>
 
