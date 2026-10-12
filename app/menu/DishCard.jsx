@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { DishImage } from "@/components/DishImage";
 import { FavoriteButton } from "@/components/FavoriteButton";

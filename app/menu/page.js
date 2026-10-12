@@ -16,12 +16,12 @@ export default async function MenuPage({ searchParams }) {
   const page = parseInt(params?.page || "1", 10);
 
   return (
-    <section>
+    <div className="menu-page">
       <h1>Menu</h1>
       <SearchBox />
-      <Suspense key={`${category ?? "all"}-${page}`} fallback={<p>Loading dishes…</p>}>
+      <Suspense key={`${category ?? "all"}-${page}`} fallback={<p>Loading dishes...</p>}>
         <DishList category={category} page={page} />
       </Suspense>
-    </section>
+    </div>
   );
 }

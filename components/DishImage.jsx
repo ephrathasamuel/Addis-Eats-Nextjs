@@ -24,7 +24,7 @@ export function DishImage({ dish, size = "card", priority = false }) {
           sizes={
             size === "hero"
               ? "(max-width: 768px) 100vw, 800px"
-              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
+              : "(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) 50vw, 320px"
           }
           style={{ objectFit: "cover" }}
           onError={() => setFailed(true)}
